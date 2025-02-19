@@ -1,24 +1,27 @@
 {
-  "name": "bun-mono",
+  "name": "@bun-mono/monorepo",
   "private": true,
-  "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types"
-  },
-  "devDependencies": {
-    "prettier": "^3.5.0",
-    "turbo": "^2.4.2",
-    "typescript": "5.7.3"
-  },
-  "engines": {
-    "node": ">=18"
-  },
-  "packageManager": "bun@1.1.42",
+  "description": "Example of Turborepo setup with Bun",
+  "packageManager": "bun@1.1.29",
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "scripts": {
+    "dev": "bun --filter '*' dev",
+    "start": "bun --filter '*' start",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "clean": "git clean -xdf .turbo node_modules",
+    "check": "bun format-and-lint && bun check:case && bun check:knip",
+    "check:case": "bunx --bun case-police",
+    "check:knip": "bunx --bun knip",
+    "check:updates": "bunx npm-check-updates -ui -ws",
+    "format-and-lint:fix": "biome check . --write",
+    "typecheck": "bun run --filter '*' typecheck"
+  },
+  "devDependencies": {
+    "typescript": "5.6.2",
+    "turbo": "^2.4.0"
+  }
 }
